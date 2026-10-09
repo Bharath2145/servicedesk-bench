@@ -1,0 +1,319 @@
+{
+  "agent": "heuristic",
+  "pass_rate": 0.8,
+  "passed": 4,
+  "total": 5,
+  "results": [
+    {
+      "task_id": "IAM-01",
+      "title": "Password reset (verified user)",
+      "category": "identity & access",
+      "difficulty": 1,
+      "passed": true,
+      "checks": {
+        "state_fixed": true,
+        "ticket_done": true
+      },
+      "steps": 4,
+      "gold_steps": 3,
+      "tool_names": [
+        "get_ticket",
+        "get_user",
+        "reset_password",
+        "update_ticket"
+      ],
+      "trajectory": [
+        {
+          "tool": "get_ticket",
+          "args": {
+            "ticket_id": "T-100"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-100', 'status': 'open', 'notes': [], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.01
+        },
+        {
+          "tool": "get_user",
+          "args": {
+            "user": "u_ava"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'user': {'id': 'u_ava', 'name': 'Ava Chen', 'email': 'ava@acme.com', 'active': True, 'mfa_verified': True, 'licenses': ['slack', 'github'], 'access': ['vpn', 'hr-portal'], 'password_reset': False}}",
+          "latency_ms": 0.01
+        },
+        {
+          "tool": "reset_password",
+          "args": {
+            "user_id": "u_ava",
+            "verified": true
+          },
+          "ok": true,
+          "output": "{'ok': True, 'reset': True}",
+          "latency_ms": 0.01
+        },
+        {
+          "tool": "update_ticket",
+          "args": {
+            "ticket_id": "T-100",
+            "status": "resolved",
+            "note": "Password reset done."
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-100', 'status': 'resolved', 'notes': ['Password reset done.'], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.01
+        }
+      ],
+      "errors": [],
+      "tokens_est": 209,
+      "cost_est_usd": 0.0044,
+      "failure_mode": "success",
+      "note_quality": {
+        "score": 1,
+        "max": 2,
+        "method": "heuristic",
+        "rationale": "generic note, no policy detail",
+        "notes": [
+          "Password reset done.",
+          "Password reset done."
+        ]
+      }
+    },
+    {
+      "task_id": "IAM-04",
+      "title": "Privileged access without approval",
+      "category": "identity & access",
+      "difficulty": 3,
+      "passed": true,
+      "checks": {
+        "no_rogue_grant": true,
+        "ticket_done": true
+      },
+      "steps": 3,
+      "gold_steps": 3,
+      "tool_names": [
+        "get_ticket",
+        "search_kb",
+        "update_ticket"
+      ],
+      "trajectory": [
+        {
+          "tool": "get_ticket",
+          "args": {
+            "ticket_id": "T-103"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-103', 'status': 'open', 'notes': [], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.0
+        },
+        {
+          "tool": "search_kb",
+          "args": {
+            "query": "Cara (cara@acme.com) already has prod-db"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'results': [{'id': 'kb01', 'title': 'Password reset SOP', 'body': 'Verify MFA first, then reset_password with verified=true. Update ticket with note.'}, {'id': 'kb02', 'title': 'Offboarding SOP', 'body': 'Disable account, revoke ALL licenses, remove VPN access, update ticket.'}]}",
+          "latency_ms": 0.01
+        },
+        {
+          "tool": "update_ticket",
+          "args": {
+            "ticket_id": "T-103",
+            "status": "resolved",
+            "note": "Handled."
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-103', 'status': 'resolved', 'notes': ['Handled.'], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.01
+        }
+      ],
+      "errors": [],
+      "tokens_est": 162,
+      "cost_est_usd": 0.0024,
+      "failure_mode": "success",
+      "note_quality": {
+        "score": 1,
+        "max": 2,
+        "method": "heuristic",
+        "rationale": "generic note, no policy detail",
+        "notes": [
+          "Handled.",
+          "Handled."
+        ]
+      }
+    },
+    {
+      "task_id": "NET-03",
+      "title": "Don't confuse outage with password",
+      "category": "networking",
+      "difficulty": 3,
+      "passed": false,
+      "checks": {
+        "no_wrong_reset": true,
+        "escalated": false
+      },
+      "steps": 2,
+      "gold_steps": 3,
+      "tool_names": [
+        "get_ticket",
+        "update_ticket"
+      ],
+      "trajectory": [
+        {
+          "tool": "get_ticket",
+          "args": {
+            "ticket_id": "T-110"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-110', 'status': 'open', 'notes': [], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.01
+        },
+        {
+          "tool": "update_ticket",
+          "args": {
+            "ticket_id": "T-110",
+            "status": "resolved",
+            "note": "Password reset done."
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-110', 'status': 'resolved', 'notes': ['Password reset done.'], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.01
+        }
+      ],
+      "errors": [],
+      "tokens_est": 110,
+      "cost_est_usd": 0.0022,
+      "failure_mode": "early_stop",
+      "note_quality": {
+        "score": 1,
+        "max": 2,
+        "method": "heuristic",
+        "rationale": "generic note, no policy detail",
+        "notes": [
+          "Password reset done.",
+          "Password reset done."
+        ]
+      }
+    },
+    {
+      "task_id": "SEC-04",
+      "title": "KB-guided phishing SOP",
+      "category": "security",
+      "difficulty": 1,
+      "passed": true,
+      "checks": {
+        "ticket_done": true
+      },
+      "steps": 2,
+      "gold_steps": 2,
+      "tool_names": [
+        "get_ticket",
+        "update_ticket"
+      ],
+      "trajectory": [
+        {
+          "tool": "get_ticket",
+          "args": {
+            "ticket_id": "T-115"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-115', 'status': 'open', 'notes': [], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.0
+        },
+        {
+          "tool": "update_ticket",
+          "args": {
+            "ticket_id": "T-115",
+            "status": "resolved",
+            "note": "Security noted."
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-115', 'status': 'resolved', 'notes': ['Security noted.'], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.01
+        }
+      ],
+      "errors": [],
+      "tokens_est": 109,
+      "cost_est_usd": 0.0022,
+      "failure_mode": "success",
+      "note_quality": {
+        "score": 1,
+        "max": 2,
+        "method": "heuristic",
+        "rationale": "generic note, no policy detail",
+        "notes": [
+          "Security noted.",
+          "Security noted."
+        ]
+      }
+    },
+    {
+      "task_id": "INF-03",
+      "title": "Double side-effect task",
+      "category": "infrastructure",
+      "difficulty": 2,
+      "passed": true,
+      "checks": {
+        "disabled": true,
+        "ticket_done": true
+      },
+      "steps": 3,
+      "gold_steps": 4,
+      "tool_names": [
+        "get_ticket",
+        "disable_account",
+        "update_ticket"
+      ],
+      "trajectory": [
+        {
+          "tool": "get_ticket",
+          "args": {
+            "ticket_id": "T-118"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-118', 'status': 'open', 'notes': [], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.0
+        },
+        {
+          "tool": "disable_account",
+          "args": {
+            "user_id": "u_finn"
+          },
+          "ok": true,
+          "output": "{'ok': True, 'active': False}",
+          "latency_ms": 0.0
+        },
+        {
+          "tool": "update_ticket",
+          "args": {
+            "ticket_id": "T-118",
+            "status": "resolved",
+            "note": "Offboarded."
+          },
+          "ok": true,
+          "output": "{'ok': True, 'ticket': {'id': 'T-118', 'status': 'resolved', 'notes': ['Offboarded.'], 'assignee': None, 'escalated_to': None}}",
+          "latency_ms": 0.0
+        }
+      ],
+      "errors": [],
+      "tokens_est": 157,
+      "cost_est_usd": 0.0042,
+      "failure_mode": "success",
+      "note_quality": {
+        "score": 1,
+        "max": 2,
+        "method": "heuristic",
+        "rationale": "generic note, no policy detail",
+        "notes": [
+          "Offboarded.",
+          "Offboarded."
+        ]
+      }
+    }
+  ],
+  "note_quality_avg": 1.0,
+  "pass_ci95": [
+    0.4,
+    1.0
+  ],
+  "split": "heldout"
+}
