@@ -92,7 +92,7 @@ BENCHMARK_CARD.md  design card (ABC compliance, fairness, limitations)
   (sample; harness scales to 100+); cost is estimated; LLM scoring needs
   `OPENAI_API_KEY`, otherwise deterministic fallback applies.
 
-## What I'd do next (roadmap for interview)
+## What I'd do next
 
 v2 items above are done. Natural v3: scale to 100+ tasks via templated task
 generator, add multi-model leaderboard (GPT/Claude/Gemini via `--agent llm`),
