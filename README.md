@@ -88,20 +88,9 @@ BENCHMARK_CARD.md  design card (ABC compliance, fairness, limitations)
   only tool outputs are visible.
 - **Difficulty labels:** L1 = single-system lookup+record, L2 = multi-step with guard,
   L3 = ambiguous/adversarial needing triage + escalation.
-- **Limitations (honest):** offline mock (no real LLM in baselines — plug yours via
-  `BaseAgent.run`), 24 tasks (sample; harness scales to 100+), cost is estimated.
-
-## Plug in your own LLM agent (interview extension)
-
-```python
-from src.agents import AGENTS
-class MyLLMAgent:
-    name = "my-llm"
-    def run(self, task, call):
-        # ReAct loop with your model; call(name, args) executes tools
-        ...
-# python -m src.run_eval --agent ...  (register in AGENTS)
-```
+- **Limitations (honest):** offline mock environment (no live systems); 24 tasks
+  (sample; harness scales to 100+); cost is estimated; LLM scoring needs
+  `OPENAI_API_KEY`, otherwise deterministic fallback applies.
 
 ## What I'd do next (roadmap for interview)
 
