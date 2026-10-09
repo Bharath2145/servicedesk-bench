@@ -105,6 +105,6 @@ class MyLLMAgent:
 
 ## What I'd do next (roadmap for interview)
 
-1. LLM-as-judge rubric for note *quality* alongside deterministic state checks.
-2. Held-out private split + task mutation generator to fight overfitting.
-3. Bootstrap CIs + cost-vs-accuracy Pareto frontier per model/harness.
+v2 items above are done. Natural v3: scale to 100+ tasks via templated task
+generator, add multi-model leaderboard (GPT/Claude/Gemini via `--agent llm`),
+human-agreement study for the note-quality judge.
